@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { neon } from '@neondatabase/serverless';
 
-const sql = neon(process.env.DATABASE_URL);
+export const sql = neon(process.env.DATABASE_URL);
 
 export async function setupDB() {
   try {
