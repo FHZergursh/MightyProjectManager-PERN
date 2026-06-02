@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   return (
     <div className='bg-gray-700 w-full h-screen flex justify-center items-center'>
-      <div className='bg-gray-500 w-[25vw] h-[40vh] flex flex-col gap-10'>
+      <form className='bg-gray-500 w-[25vw] h-[40vh] flex flex-col gap-8'>
         <h1 className='flex justify-center'>Login</h1>
         <div className='flex px-5 py-3'>
           <h2 className='mr-1'>Username</h2>
@@ -38,7 +38,7 @@ const LoginPage = () => {
           <button className='bg-green-400 p-2 h-15 w-20' onClick={() => {onLoginClick(password)}}>Login</button>
           <button className='bg-blue-400 p-2 h-15 w-20' onClick={() => {onRegisterClick()}}>Register</button>
         </div>
-      </div>
+      </form>
 
       
 
