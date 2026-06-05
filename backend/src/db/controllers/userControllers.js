@@ -76,3 +76,17 @@ export const updateUser = async (req, res) => {
 
   }
 }
+
+export const userLogin = async (req, res) => {
+  try {
+    const {username, password} = req.body
+
+    return res.status(400).json({success: false, message: error})
+
+    
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+  }
+}
