@@ -34,6 +34,17 @@ export const createNewUser = async (req, res) => {
       return res.status(400).json({success: false, message: "Please provide a valid username and password"})
     }
 
+    //check if username already exists
+    const result = await sql.query(`SELECT * FROM users WHERE username = $1`, [username])
+
+    if (result) 
+    {
+      return res.status(400).json({success: false, message: "Username already taken!"})
+    }
+
+
+
+
     const newUser = await sql.query(`INSERT INTO users (username, password, picture) 
       VALUES ($1, $2, $3)`, [username, password, picture])
 
@@ -80,10 +91,20 @@ export const updateUser = async (req, res) => {
 export const userLogin = async (req, res) => {
   try {
     const {username, password} = req.body
-
-    return res.status(400).json({success: false, message: error})
-
     
+    if (!username || !password) {
+      return res.status(400).json({success: false, message: "Details missing!"})
+    }
+
+    const result = await sql.query(`SELECT * FROM users WHERE username = $1 AND password = $2`, [username, password])
+    //for now, this works as a quick solution, but JWT will be added later once appropriate
+
+    if (!result) { 
+      return res.status(400).json({success: false, message: "Account not found"})
+
+    } else {
+      return res.status(200).json({success: true, message: result})
+    }
 
   } catch (error) {
     console.log(error)
