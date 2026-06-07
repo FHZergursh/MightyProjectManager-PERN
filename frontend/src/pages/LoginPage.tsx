@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 interface loginInterface {
   username: string,
@@ -17,16 +18,18 @@ const LoginPage = () => {
 
   function updatePassword(e : React.ChangeEvent<HTMLInputElement>) {
     SetPassword(e.target.value)
-    console.log(e.target.value)
   }
 
   const onLoginClick = async () => {
     console.log("login button")
 
-    //this needs doing, probably need a toast notification to make things sweet on failure to login
+    if (username.length === 0 || password.length === 0) {
+      return toast.error("All fields are required");
+    } 
+
 
     try {
-      const res = await fetch(``) //fetch account matching params, complete this
+      const res = await fetch(`http://localhost:3000/api/users/login`) //fetch account matching params, complete this
       const valid = await res.json()
       setValidLogin(valid)
 
@@ -36,10 +39,13 @@ const LoginPage = () => {
       } 
       else if (!validLogin) {
         console.log("Incorrect login")
+        return;
       }
       else {
         console.log("Something really weird happened with login, debug this")
+        return;
       }
+      
     
     } catch (error) {
       console.log("Error with login", error)
@@ -47,6 +53,14 @@ const LoginPage = () => {
   }
 
   const onRegisterClick = () => {
+
+
+    if (username.length === 0 || password.length === 0) {
+      toast.error("All fields are required");
+      return;
+    } 
+
+    
     console.log("register button")
   }
 
