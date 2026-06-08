@@ -103,10 +103,14 @@ export const userLogin = async (req, res) => {
       return res.status(400).json({success: false, message: "Details missing!"})
     }
 
+    
     const result = await sql.query(`SELECT * FROM users WHERE username = $1 AND password = $2`, [username, password])
     //for now, this works as a quick solution, but JWT will be added later once appropriate
 
-    if (!result) { 
+    const length = result.length
+
+
+    if (length === 0) { 
       return res.status(400).json({success: false, message: "Account not found"})
 
     } else {
