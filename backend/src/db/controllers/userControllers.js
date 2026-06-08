@@ -13,7 +13,7 @@ export const GetAllUsers = async (req, res) => {
 
 }
 
-export const getUser = async (req, res) => {
+export const getUser = async (req, res) => { //through id, use login if you have username and password
   try {
     const {id} = req.params
 
@@ -36,15 +36,14 @@ export const createNewUser = async (req, res) => {
 
     //check if username already exists
     const result = await sql.query(`SELECT * FROM users WHERE username = $1`, [username])
-
-    if (result) 
+    const length = result.length 
+    if (length !== 0) 
     {
+      console.log(length)
       return res.status(400).json({success: false, message: "Username already taken!"})
     }
 
-
-
-
+    //create new user
     const newUser = await sql.query(`INSERT INTO users (username, password, picture) 
       VALUES ($1, $2, $3)`, [username, password, picture])
 
@@ -61,9 +60,17 @@ export const createNewUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const {id} = req.params
+
+    //check if exists, return error if doesn't
+    const checkIfExists = await sql.query(`SELECT * FROM users WHERE id = $1`, [id])
+    const length = checkIfExists.length
+
+    if (length === 0) {
+      return res.status(200).json({success: false, message: "Account doesn't exists"})
+    } 
+
+    //delete
     const deleted = await sql.query(`DELETE FROM users WHERE id = $1`, [id])
-
-
     return res.status(200).json({success: true, message: deleted.data})
 
   } catch (error) {

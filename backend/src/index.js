@@ -12,6 +12,7 @@ app.use(express.json())
 
 app.use("/api/users", userRoutes)
 
+
 setupDB().then(app.listen(PORT, () => {
   console.log("Server is running!")
 }))

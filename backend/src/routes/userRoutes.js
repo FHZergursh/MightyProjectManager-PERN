@@ -4,12 +4,11 @@ import { createNewUser, deleteUser, GetAllUsers, getUser, updateUser, userLogin 
 const userRoutes = express.Router();
 
 userRoutes.get("/", GetAllUsers)
-userRoutes.get("/:id", getUser)
 userRoutes.get("/login", userLogin)
+userRoutes.get("/:id", getUser)
 userRoutes.post("/", createNewUser)
 userRoutes.delete("/:id", deleteUser)
 userRoutes.put("/:id", updateUser)
 
-
-
 export default userRoutes
+
