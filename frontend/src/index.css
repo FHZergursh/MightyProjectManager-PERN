@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+body { /* global classes for the entire page */
+  background-color: var(--color-zinc-900);
+  color: white;
+}
