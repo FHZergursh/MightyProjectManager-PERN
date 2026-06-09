@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 interface loginInterface {
   username: string,
@@ -9,7 +10,9 @@ interface loginInterface {
 const LoginPage = () => {
   const [username, SetUsername] = useState('')
   const [password, SetPassword] = useState('')
-  const [validLogin, setValidLogin] = useState<loginInterface>()
+  //const [validLogin, setValidLogin] = useState<loginInterface>()
+
+  const navigate = useNavigate();
 
   function updateUsername(e : React.ChangeEvent<HTMLInputElement>) {
     SetUsername(e.target.value)
@@ -27,39 +30,41 @@ const LoginPage = () => {
       return toast.error("All fields are required");
     } 
 
-
     try {
-      const res = await fetch(`http://localhost:3000/api/users/login`) //fetch account matching params, complete this
+      const res = await fetch(`http://localhost:3000/api/users/login`, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: username, password: password})}) //fetch account matching params, complete this
       const valid = await res.json()
-      setValidLogin(valid)
+      console.log(valid)
 
-      if (validLogin) {
-        console.log("Successful login")
-        
-      } 
-      else if (!validLogin) {
-        console.log("Incorrect login")
+      if (res.status === 400) //fail
+      {
+        console.log("Failed")
         return;
       }
-      else {
-        console.log("Something really weird happened with login, debug this")
-        return;
+      else if (res.status === 200) //success
+      {
+        console.log("Success")
+        return navigate('/home')
       }
-      
-    
+      else { //bugged out completely
+        console.log("weird error caused here")
+        return
+
+      }
     } catch (error) {
       console.log("Error with login", error)
     }
   }
 
-  const onRegisterClick = () => {
 
-
+  const onRegisterClick = async () => {
     if (username.length === 0 || password.length === 0) {
       toast.error("All fields are required");
       return;
     } 
-
+    
+    const res = await fetch(`http://localhost:3000/api/users/`)
+    const result = await res.json()
+    console.log(result)
     
     console.log("register button")
   }
@@ -83,9 +88,6 @@ const LoginPage = () => {
           <button className='bg-blue-400 p-2 h-15 w-20' onClick={() => {onRegisterClick()}}>Register</button>
         </div>
       </div>
-
-      
-
     </div>
   )
 }
