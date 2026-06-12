@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 
-interface loginInterface {
+interface loginInterface {   //this datatype probably needs moving to its own subfolder rather than being here
   username: string,
   password: string
 }
@@ -23,7 +23,7 @@ const LoginPage = () => {
     SetPassword(e.target.value)
   }
 
-  const onLoginClick = async () => {
+  const onLoginClick = async () => { //for now, just navigates to homepage if login info is valid
     console.log("login button")
 
     if (username.length === 0 || password.length === 0) {
@@ -38,20 +38,25 @@ const LoginPage = () => {
       if (res.status === 400) //fail
       {
         console.log("Failed")
+        toast.error("Login failed, make sure your details are correct");
         return;
       }
       else if (res.status === 200) //success
       {
         console.log("Success")
+        toast.success("Login successful");
         return navigate('/home')
       }
       else { //bugged out completely
-        console.log("weird error caused here")
+        console.log("Error encountered during login. Please try again later.")
+        toast.error("Server error! ");
         return
 
       }
-    } catch (error) {
+    } catch (error) { //catch invalid data type usually
       console.log("Error with login", error)
+      toast.error("Error encountered. Make sure all inputs are valid.");
+      return
     }
   }
 
@@ -65,8 +70,10 @@ const LoginPage = () => {
     const res = await fetch(`http://localhost:3000/api/users/`)
     const result = await res.json()
     console.log(result)
-    
     console.log("register button")
+    toast.success("register button")
+
+    //this still needs doing
   }
 
 
