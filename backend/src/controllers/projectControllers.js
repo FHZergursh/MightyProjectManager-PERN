@@ -1,0 +1,56 @@
+import { sql } from "../db/db.js";
+
+export const getAllProjects = async (req, res) => {
+  try {
+    return res.status(200).json("Endpoint successful")
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+
+  }
+}
+
+export const getProject = async (req, res) => {
+  try {
+    return res.status(200).json("Endpoint successful")
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+
+  }
+}
+
+export const createProject = async (req, res) => {
+  try {
+    return res.status(200).json("Endpoint successful")
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+
+  }
+}
+
+export const deleteProject = async (req, res) => {
+  try {
+    return res.status(200).json("Endpoint successful")
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+
+  }
+}
+
+export const updateProject = async (req, res) => {
+  try {
+    return res.status(200).json("Endpoint successful")
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+
+  }
+}

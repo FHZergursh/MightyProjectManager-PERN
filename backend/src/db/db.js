@@ -16,6 +16,20 @@ export async function setupDB() {
         picture VARCHAR(1000)
       );
     `;
+
+    // projects table (overview) 
+    await sql`
+    CREATE TABLE IF NOT EXISTS projects (
+      projectid SERIAL PRIMARY KEY,
+      projectName VARCHAR(255) NOT NULL,
+      taskAmount INT NOT NULL,
+      assignedTo VARCHAR(1000) 
+    )
+    `;
+
+    //indiivdual task table, using projectID as a foreign key, is the next step here
+
+
     console.log('Finished initialising table.');
 
   } catch (err) {
