@@ -2,7 +2,9 @@ import { sql } from "../db/db.js";
 
 export const getAllProjects = async (req, res) => {
   try {
-    return res.status(200).json("Endpoint successful")
+    const users = await sql.query(`SELECT * FROM projects`)
+
+    return res.status(200).json({success: true, message: users})
 
   } catch (error) {
     console.log(error)
@@ -13,7 +15,11 @@ export const getAllProjects = async (req, res) => {
 
 export const getProject = async (req, res) => {
   try {
-    return res.status(200).json("Endpoint successful")
+    const {id} = req.params
+
+    const users = await sql.query(`SELECT * FROM projects WHERE id = $1 `, [id])
+
+    return res.status(200).json({success: true, message: users})
 
   } catch (error) {
     console.log(error)
