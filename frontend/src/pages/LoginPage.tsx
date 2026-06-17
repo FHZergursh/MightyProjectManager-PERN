@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 
-interface loginInterface {
+interface loginInterface {   //this datatype probably needs moving to its own subfolder rather than being here
   username: string,
   password: string
 }
@@ -23,7 +23,7 @@ const LoginPage = () => {
     SetPassword(e.target.value)
   }
 
-  const onLoginClick = async () => {
+  const onLoginClick = async () => { //for now, just navigates to homepage if login info is valid
     console.log("login button")
 
     if (username.length === 0 || password.length === 0) {
@@ -52,8 +52,10 @@ const LoginPage = () => {
         return
 
       }
-    } catch (error) {
+    } catch (error) { //catch invalid data type usually
       console.log("Error with login", error)
+      toast.error("Error encountered. Make sure all inputs are valid.");
+      return
     }
   }
 
