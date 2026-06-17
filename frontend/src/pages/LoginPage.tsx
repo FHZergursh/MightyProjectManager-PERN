@@ -37,7 +37,9 @@ const LoginPage = () => {
 
       if (res.status === 400) //fail
       {
-        toast.error("Failed")
+        toast.error("Failed to login")
+        SetUsername("")
+        SetPassword("")
         return;
       }
       else if (res.status === 200) //success
@@ -69,6 +71,7 @@ const LoginPage = () => {
       if (available.status === 400)
       {
         toast.error("Username already taken. Please use a different username")
+        SetUsername("")
         return;
       }
       else 
@@ -77,17 +80,24 @@ const LoginPage = () => {
         if (created.status == 200)
         {
           toast.success("Account successfully created")
+          SetUsername("")
+          SetPassword("")
           return;
         }
         else 
         {
           toast.error("Error creating account. Please try again later.")
+          SetUsername("")
+          SetPassword("")
           return;
         }
       }
 
     } catch (error) {
       console.log(error)
+      toast.error("Error creating account. Please try again later.")
+      SetUsername("")
+      SetPassword("")
     }
   }
 
