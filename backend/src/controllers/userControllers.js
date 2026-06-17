@@ -122,3 +122,28 @@ export const userLogin = async (req, res) => {
     return res.status(400).json({success: false, message: error})
   }
 }
+
+export const checkIfUsernameAvailable = async (req, res) => {
+  try {
+    const {username} = req.body
+
+    if (!username) {
+      return res.status(400).json({success: false, message: "Provide a username to check"})
+    }
+
+    const result = await sql.query(`SELECT * FROM users WHERE username = $1`, [username])
+    
+    const length = result.length
+    if (length === 0) 
+    {
+      return res.status(200).json({success: true, message: "Username is available."})
+    }
+    else {
+      return res.status(400).json({success: false, message: "Username is already taken. Please use a different username"})
+    }
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({success: false, message: error})
+  }
+}

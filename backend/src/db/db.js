@@ -29,7 +29,7 @@ export async function setupDB() {
 
     //indiivdual task table, using projectID as a foreign key, is the next step here
 
-
+    
     console.log('Finished initialising table.');
 
   } catch (err) {

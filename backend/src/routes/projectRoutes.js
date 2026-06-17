@@ -7,7 +7,7 @@ projectRoutes.get("/", getAllProjects)
 projectRoutes.get("/:id", getProject)
 projectRoutes.post("/", createProject)
 projectRoutes.delete("/:id", deleteProject)
-projectRoutes.put(":/id", updateProject)
+projectRoutes.put("/:id", updateProject)
 
 
 export default projectRoutes

@@ -31,22 +31,22 @@ const LoginPage = () => {
     } 
 
     try {
-      const res = await fetch(`http://localhost:3000/api/users/login`, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: username, password: password})}) //fetch account matching params, complete this
+      const res = await fetch(`http://localhost:3000/api/users/login`, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: username, password: password})})
       const valid = await res.json()
       console.log(valid)
 
       if (res.status === 400) //fail
       {
-        console.log("Failed")
+        toast.error("Failed")
         return;
       }
       else if (res.status === 200) //success
       {
-        console.log("Success")
+        toast.success("Successful login")
         return navigate('/home')
       }
       else { //bugged out completely
-        console.log("weird error caused here")
+        toast.error("weird error caused here")
         return
 
       }
@@ -61,12 +61,34 @@ const LoginPage = () => {
       toast.error("All fields are required");
       return;
     } 
-    
-    const res = await fetch(`http://localhost:3000/api/users/`)
-    const result = await res.json()
-    console.log(result)
-    
-    console.log("register button")
+
+    try 
+    {
+      const available = await fetch(`http://localhost:3000/api/users/checkusername`, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: username})})
+
+      if (available.status === 400)
+      {
+        toast.error("Username already taken. Please use a different username")
+        return;
+      }
+      else 
+      {
+        const created = await fetch(`http://localhost:3000/api/users`, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: username, password: password})})
+        if (created.status == 200)
+        {
+          toast.success("Account successfully created")
+          return;
+        }
+        else 
+        {
+          toast.error("Error creating account. Please try again later.")
+          return;
+        }
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
